@@ -5,287 +5,340 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+import model.OpponentTeams;
+import model.Player;
 import model.Team;
 
-public class Innings {
-	
-	//static String chooseBatOrBowlOne;
-	//static String chooseBatOrBowlTwo;
-	
-	static List<Team> addMatchDetailsArrayList = new ArrayList<>();
-	
-	public static void getTeamNames() {
-		  
-		Scanner inputTeamName = new Scanner(System.in);
+	public class Innings {
 		
+		//static String chooseBatOrBowlOne;
+		//static String chooseBatOrBo	wlTwo;
+		public List<Team> addMatchDetailsArrayList = new ArrayList<>();
+		OpponentTeams opponentTeams = new OpponentTeams();
 		
-		Team teamOne = new Team();
-		
-		System.out.println(" Enter your team name ");
-		teamOne.setTeamName(inputTeamName.nextLine());
-		addMatchDetailsArrayList.add(teamOne);
-		
-		
-		Team teamTwo = new Team();
-		
-		System.out.println(" Enter your oponent's team name ");
-		teamTwo.setTeamName(inputTeamName.nextLine());
-		addMatchDetailsArrayList.add(teamTwo);
-	}
-	
-	public static String tossValidation(String userChoiceValidation) {
-		
-		Scanner validatingChoice = new Scanner(System.in);
-		if(userChoiceValidation.equalsIgnoreCase("bat") || userChoiceValidation.equalsIgnoreCase("bowl")) {
-			return userChoiceValidation;
-		} else {
-			System.out.println(" Invalid choice ! Either choose bat or bowl ");
-			userChoiceValidation = validatingChoice.nextLine();
-			return tossValidation(userChoiceValidation);
+		public  OpponentTeams getTeamNames() {
+			
+			Team pakistanTeam =  Team.getPakistanTeamObject();
+			addMatchDetailsArrayList.add(pakistanTeam);
+		    
+			Team indiaTeam = Team.getIndiaTeamObject();
+			addMatchDetailsArrayList.add(indiaTeam);
+			
+			Team australiaTeam = Team.getAustraliaTeamObject();
+		    addMatchDetailsArrayList.add(australiaTeam);
+			
+		    
+			Random randomTeamName = new Random();
+			
+			if(addMatchDetailsArrayList.size() >= 2) {
+				int randomTeam1Index = randomTeamName.nextInt(addMatchDetailsArrayList.size());
+				Team teamOne = addMatchDetailsArrayList.get(randomTeam1Index);
+				opponentTeams.setTeamOne(teamOne);
+				int randomTeam2Index;
+				do {
+					randomTeam2Index = randomTeamName.nextInt(addMatchDetailsArrayList.size());
+				} while(randomTeam1Index == randomTeam2Index);
+				
+				Team teamTwo = addMatchDetailsArrayList.get(randomTeam2Index);
+				opponentTeams.setTeamTwo(teamTwo);
+				System.out.println(" Team one is "+teamOne.getTeamName());
+				System.out.println(" Team Two is "+teamTwo.getTeamName());
+				
+			}
+			return opponentTeams;
 		}
-	}
-	
-	public static void toss() {
 		
-		Team teamToss1 = addMatchDetailsArrayList.get(0);
-		Team teamToss2 = addMatchDetailsArrayList.get(1);
-		Scanner tossWin =  new Scanner(System.in);
-		
-		System.out.println();
-		System.out.println(" ----- It's toss time ----- ");
-		System.out.println();
-		
-		System.out.println(" Enter ' 0 ' for Heads & ' 1 ' for Tails ");
-		int chooseOne = tossWin.nextInt();
-		boolean isFalse = false;
-		
-		while(isFalse != true) {
-			if(chooseOne == 0 || chooseOne == 1) {
-				isFalse = true;	
+		public  String tossValidation(String userChoiceValidation) {
+			
+			Scanner validatingChoice = new Scanner(System.in);
+			if(userChoiceValidation.equalsIgnoreCase("bat") || userChoiceValidation.equalsIgnoreCase("bowl")) {
+				return userChoiceValidation;
 			} else {
-				System.out.println(" Enter between ' 0 ' OR ' 1 ' only ");
-				chooseOne = tossWin.nextInt();
-				isFalse = false;
+				System.out.println(" Invalid choice ! Either choose bat or bowl ");
+				userChoiceValidation = validatingChoice.nextLine();
+				return tossValidation(userChoiceValidation);
 			}
 		}
 		
-		Random random = new Random();
-		int tossResult = random.nextInt(2);
-		System.out.println("Your Choice: " + chooseOne);
-		System.out.println("Toss Result: " + tossResult);
-
-		
-		if (chooseOne == tossResult) {
+		public  void toss() {
 			
-			Scanner chooseForTeamOne = new Scanner(System.in);
+			Scanner tossWin =  new Scanner(System.in);
 			
-		    System.out.println(addMatchDetailsArrayList.get(0).getTeamName() + " has won the toss");
-		    System.out.println("Do you want to bat or bowl first?");
-		   
-		    String chooseBatOrBowlOne = tossValidation(chooseForTeamOne.nextLine());
-		    teamToss1.setTossChoice(chooseBatOrBowlOne);
-		   
-		    String oppositeChoice = chooseBatOrBowlOne.equalsIgnoreCase("bat") ? "bowl" : "bat";
-		    teamToss2.setTossChoice(oppositeChoice);
-		    
-		    addMatchDetailsArrayList.set(0, teamToss1);
-		    addMatchDetailsArrayList.set(1, teamToss2);
-		    
-		    System.out.println(addMatchDetailsArrayList.get(1).getTeamName() + " will " + oppositeChoice + " first");
-		} else {
+			System.out.println();
+			System.out.println(" ----- It's toss time ----- ");
+			System.out.println();
 			
-			Scanner chooseForTeamTwo = new Scanner(System.in);
+			System.out.println(" Enter ' 0 ' for Heads & ' 1 ' for Tails ");
+			int chooseOne = tossWin.nextInt();
+			boolean isFalse = false;
 			
-		    System.out.println(addMatchDetailsArrayList.get(1).getTeamName() + " has won the toss");
-		    System.out.println("Do you want to bat or bowl first?");
-		   
-		    String chooseBatOrBowlTwo = tossValidation(chooseForTeamTwo.nextLine());
-		    teamToss2.setTossChoice(chooseBatOrBowlTwo);
+			while(isFalse != true) {
+				if(chooseOne == 0 || chooseOne == 1) {
+					isFalse = true;	
+				} else {
+					System.out.println(" Enter between ' 0 ' OR ' 1 ' only ");
+					chooseOne = tossWin.nextInt();
+					isFalse = false;
+				}
+			}
+			
+			Random random = new Random();
+			int tossResult = random.nextInt(2);
+			System.out.println("Your Choice: " + chooseOne);
+			System.out.println("Toss Result: " + tossResult);
+			
+		    Team teamOne = opponentTeams.getTeamOne();
+		    Team teamTwo = opponentTeams.getTeamTwo();
+			
+		    if (chooseOne == tossResult) {
+		    	
+		    	Scanner teamOneTossInput = new Scanner(System.in);
+		    	
+		        System.out.println(teamOne.getTeamName() + " has won the toss. Do you want to bat or bowl?");
+		        String choice = tossValidation(teamOneTossInput.next());
+		        teamOne.setTossChoice(choice);
+		        teamTwo.setTossChoice(choice.equalsIgnoreCase("bat") ? "bowl" : "bat");
+		        opponentTeams.setBattingChoosingTeam(teamOne);
+		        opponentTeams.setBowlingChoosingTeam(teamTwo);
+		        System.out.println(teamTwo.getTeamName() + " will " + teamTwo.getTossChoice() + " first.");
+		    } else {
+		    	
+		    	Scanner teamTwoTossInput = new Scanner(System.in);
+		    	
+		        System.out.println(teamTwo.getTeamName() + " has won the toss. Do you want to bat or bowl?");
+		        String choice = tossValidation(teamTwoTossInput.next());
+		        teamTwo.setTossChoice(choice);
+		        teamOne.setTossChoice(choice.equalsIgnoreCase("bat") ? "bowl" : "bat");
+		        opponentTeams.setBattingChoosingTeam(teamTwo);
+		        opponentTeams.setBowlingChoosingTeam(teamOne);
+		        System.out.println(teamOne.getTeamName() + " will " + teamOne.getTossChoice() + " first.");
+		    }
 		    
-		    String oppositeChoice = chooseBatOrBowlTwo.equalsIgnoreCase("bat") ? "bowl" : "bat";
-		    teamToss1.setTossChoice(oppositeChoice);
-		    
-		    addMatchDetailsArrayList.set(1, teamToss2);
-		    addMatchDetailsArrayList.set(0, teamToss1);
-
-		    System.out.println(addMatchDetailsArrayList.get(0).getTeamName() + " will " + oppositeChoice + " first");
+		    addMatchDetailsArrayList.add(teamOne);
+		    addMatchDetailsArrayList.add(teamTwo);
 		}
-	}
 	
 	
 	
-	public static void overs() {
-		
-		Team team1Score = addMatchDetailsArrayList.get(0);
-		Team team2Score = addMatchDetailsArrayList.get(1);
-		
-		System.out.println();
-		System.out.println(" ---- Start of Overs ---- ");
-		System.out.println();
-	    
-		Scanner askForOvers = new Scanner(System.in);
+		public void overs() {
+		    Team team1Score = opponentTeams.getTeamOne();
+		    Team team2Score = opponentTeams.getTeamTwo();
 
-	    System.out.println("How many overs do you want to play? (10 or 20): ");
-	    int totalOvers = askForOvers.nextInt();
+		    System.out.println();
+		    System.out.println(" ---- Start of Overs ---- ");
+		    System.out.println();
 
-	    System.out.println(" ---- Match Details ---- ");
-	    System.out.println();
-	    System.out.println("Team 1: " + addMatchDetailsArrayList.get(0).getTeamName());
-	    System.out.println("Team 2: " + addMatchDetailsArrayList.get(1).getTeamName());
-	    System.out.println();
-	    
-	    String team1TossChoice = addMatchDetailsArrayList.get(0).getTossChoice();
-	    String team2TossChoice = addMatchDetailsArrayList.get(1).getTossChoice();
-	    
-	    boolean batFirst = team1TossChoice.equalsIgnoreCase("bat");
-	    
-	    if (batFirst) {
-	    	System.out.println();
-	        System.out.println(addMatchDetailsArrayList.get(0).getTeamName() + " will bat first.");
-	        
-	    } else {
-	    	System.out.println();
-	        System.out.println(addMatchDetailsArrayList.get(1).getTeamName() + " will bat first.");
-	        
-	    }
-	    
-	    System.out.println();
-	    System.out.println(" -----  ---  ----- ");
-	    
-	    for (int i = 0; i < 2; i++) {
-	        
-	    	System.out.println();
-	    	String battingTeam = batFirst ? addMatchDetailsArrayList.get(i).getTeamName() : addMatchDetailsArrayList.get(1 - i).getTeamName();
-	       
-	    	//System.out.println();
-	    	//System.out.println(battingTeam + " is batting now.");
-	       //System.out.println();
-	    	
-	        int scorePerOver = 0 ;
-		    double currentOver = 0;
-	    	int currentRuns = 0 ;	
-	    	int currentWicket= 0 ;
-	    	
-	    	currentWicket = 0 ;
-	        
-	    	for (int over = 1; over <= totalOvers; over++) {
-	           
-	    			currentOver ++;
-	        		currentRuns = 0;
-	        		
-	            for (int ball = 1; ball <= 6; ball++) {
-	              	
-	            	Random randomRuns = new Random();
-	            	int outcome = randomRuns.nextInt(9) + 1;
-	            	
-	            	switch (outcome) {
-                    case 1:
-                    	{                	
-                        int runs = randomRuns.nextInt(6) + 1;
-                        currentRuns += runs;    
-                        //System.out.println("Ball " + ball + ": " + runs + " runs");
-                        break;              
-                    	}   
-                    case 7:
-                    	{
-                    	currentWicket++;
-                    	if(currentWicket == 10) {
-                    		//	System.out.println(" All wickets are down. innigs overs");
-                    		break;
-                    	}
-                        //System.out.println("Ball " + ball + ": Wicket!");
-                        break;  
-                    	}    
-                    case 8: 
-                    	{
-                        currentRuns++; 
-                        //System.out.println("Ball " + ball + ": Wide!");
-                        ball--;	
-                        break;
-                    	}
-                    case 9:
-                    	{
-                        Random runOutCheck = new Random();
-                        boolean isRunOut = runOutCheck.nextBoolean(); 
-                        
-	                        if (isRunOut) {
-	                            currentWicket++; 
-	                            //System.out.println("Run-out on no-ball! Wicket!");
-	                        } else {
-	                            
-	                            int noBallRuns = runOutCheck.nextInt(6) + 1; 
-	                            currentRuns += noBallRuns;
-	                           // System.out.println("No-ball runs: " + noBallRuns);
-	                        }
-                        ball--;
-                        break;
-                    	}
-                    default:
-                    	{
-                        //System.out.println("Ball " + ball + ": Dot ball");
-                        break;
-                    	}
-                }
-	            	scorePerOver += currentRuns;
-	                
-	            	if(currentWicket == 10) {
-	            		break;
-	            	}
-	            }
-	            
-	            if (battingTeam.equals(addMatchDetailsArrayList.get(0).getTeamName())) {
-		            team1Score.setTotalScore(scorePerOver);
-		            team1Score.setWicketsCount(currentWicket);
-		            team1Score.setTotalOvers(currentOver);
-		            
-		           // addMatchDetailsArrayList.add(team1Score);
-		        } else {
-		            team2Score.setTotalScore(scorePerOver);
-		            team2Score.setWicketsCount(currentWicket);
-		            team2Score.setTotalOvers(currentOver);
-		            
-		          //  addMatchDetailsArrayList.add(team2Score);
+		    Scanner askForOvers = new Scanner(System.in);
+
+		    System.out.println("How many overs do you want to play? (10 or 20): ");
+		    int totalOvers = askForOvers.nextInt();
+
+		    System.out.println(" ---- Match Details ---- ");
+		    System.out.println();
+		    System.out.println("Team 1: " + opponentTeams.getTeamOne().getTeamName());
+		    System.out.println("Team 2: " + opponentTeams.getTeamTwo().getTeamName());
+		    System.out.println();
+
+		    String team1Choice = opponentTeams.getBattingChoosingTeam().getTossChoice();
+		    String team2Choice = opponentTeams.getBowlingChoosingTeam().getTossChoice();
+
+		    boolean batFirst = team1Choice.equalsIgnoreCase("bat");
+
+		    if (batFirst) {
+		        System.out.println();
+		        System.out.println(opponentTeams.getBattingChoosingTeam().getTeamName() + " will bat first.");
+		    } else {
+		        System.out.println();
+		        System.out.println(opponentTeams.getBowlingChoosingTeam().getTeamName() + " will bat first.");
+		    }
+
+		    System.out.println();
+		    System.out.println(" -----  ---  ----- ");
+
+		    // For both innings
+		    for (int i = 0; i < 2; i++) {
+		        System.out.println();
+		        String battingTeam = (i == 0) ? opponentTeams.getBattingChoosingTeam().getTeamName() : opponentTeams.getBowlingChoosingTeam().getTeamName();
+
+		        int scorePerOver = 0;
+		        double currentOver = 0;
+		        int currentRuns = 0;
+		        int currentWicket = 0;
+
+		        currentWicket = 0;
+
+		        Random random = new Random();
+		        List<Player> playersList = (i == 0) ? opponentTeams.getBattingChoosingTeam().getPlayersList() : opponentTeams.getBowlingChoosingTeam().getPlayersList();
+		        Player currentBatter = playersList.get(random.nextInt(playersList.size())); 
+
+		       // System.out.println("The current batter is: " + currentBatter.getFirstName() + " " + currentBatter.getLastName());
+
+		        for (int over = 1; over <= totalOvers; over++) {
+		            currentOver++;
+		            currentRuns = 0;
+
+		            for (int ball = 1; ball <= 6; ball++) {
+		                Random randomRuns = new Random();
+		                int outcome = randomRuns.nextInt(100) + 1;
+
+		                if (outcome >= 1 && outcome <= 40) {
+		                    // No runs scored
+		                } else if (outcome >= 41 && outcome <= 50) {
+		                    currentRuns += 1;
+		                } else if (outcome >= 51 && outcome <= 60) {
+		                    currentRuns += 2;
+		                } else if (outcome >= 61 && outcome <= 65) {
+		                    currentRuns += 3;
+		                } else if (outcome >= 66 && outcome <= 75) {
+		                    currentRuns += 4;
+		                } else if (outcome >= 76 && outcome <= 80) {
+		                    currentRuns += 6;
+		                } else if (outcome >= 81 && outcome <= 85) {
+		                    currentRuns += 1;
+		                    ball--; // Extra ball due to wide
+		                } else if (outcome >= 86 && outcome <= 90) {
+		                    currentRuns += 1;
+		                    ball--; // Extra ball due to no-ball
+
+		                    int runOutChance = randomRuns.nextInt(100) + 1;
+		                    if (runOutChance <= 10) {
+		                        currentWicket++;
+		                    }
+		                } else if (outcome >= 91 && outcome <= 100) {
+		                    currentWicket++;
+		                    if (currentWicket == 10) {
+		                        break;
+		                    }
+		                }
+
+		                scorePerOver += currentRuns;
+
+		                // Check if the player is out
+		                if (random.nextInt(100) < 10) {
+		                   // System.out.println(currentBatter.getFirstName() + " " + currentBatter.getLastName() + " is out");
+
+		                    // Update player's status
+		                    currentBatter.setStatus("Out");
+
+		                    currentWicket++;
+		                    if (currentWicket == 10) {
+		                        break;
+		                    }
+
+		                    // Set the next batter
+		                    currentBatter = playersList.get(random.nextInt(playersList.size()));
+		                  //  System.out.println("Next batter is: " + currentBatter.getFirstName() + " " + currentBatter.getLastName());
+		                }
+
+		                // Add runs to the player's score
+		                currentBatter.setScore(currentBatter.getScore() + currentRuns);
+
+		                if (currentWicket == 10) {
+		                    break;
+		                }
+		            }
+
+		            // Update the team score after each over
+		            if (battingTeam.equals(opponentTeams.getTeamOne().getTeamName())) {
+		                team1Score.setTotalScore(scorePerOver);
+		                team1Score.setWicketsCount(currentWicket);
+		                team1Score.setTotalOvers(currentOver);
+		            } else {
+		                team2Score.setTotalScore(scorePerOver);
+		                team2Score.setWicketsCount(currentWicket);
+		                team2Score.setTotalOvers(currentOver);
+		            }
+
+		            if (currentWicket == 10) {
+		                break;
+		            }
 		        }
-	           
-	            if(currentWicket == 10) {
-	            	break;
-	            }
-	        }
- 
-           // System.out.println(addMatchDetailsArrayList.get(i).getTeamName() + " has scored "+ addMatchDetailsArrayList.get(i).getTotalScore());
-            //System.out.println();
-	    }
-	}
-	
-	
-	public static void resultDisplay() {
-		
-		Team team1Result = addMatchDetailsArrayList.get(0);
-		Team team2Result = addMatchDetailsArrayList.get(1);
-		
-		
-		if (team1Result.getTotalScore() > team2Result.getTotalScore()) {
-			team1Result.setResult("Won");
-			team2Result.setResult("Lost");
-		} else if (team1Result.getTotalScore() < team2Result.getTotalScore()) {
-			team1Result.setResult("Lost");
-			team2Result.setResult("Won");
-		} else {
-			team1Result.setResult("Tie");
-			team2Result.setResult("Tie");
-		}
-		
-		
-		System.out.println("Team Name          Total Score    Total Wickets    Total Overs    Result");
-	    System.out.println("------------------------------------------------------------------------");
 
-	    for (Team team : addMatchDetailsArrayList) {
-	        System.out.printf("%-20s %-15d %-15d %-15.1f %-10s\n", 
-	                          team.getTeamName(), 
-	                          team.getTotalScore(), 
-	                          team.getWicketsCount(), 
-	                          team.getTotalOvers(),
-	                          team.getResult());
-	    }
+		        // Print the final scores and statuses of players after the match
+//		        System.out.println();
+//		        System.out.println(" ---- Final Player Scores and Status ---- ");
+//		        System.out.println("Batting Team: " + battingTeam);
+//		        System.out.println("---------------------------------------------------");
+//		        System.out.println("| Player Name               | Runs  | Status       |");
+//		        System.out.println("---------------------------------------------------");
+//
+//		        for (Player player : playersList) {
+//		            System.out.println("| " + player.getFirstName() + " " + player.getLastName() + "   | " + player.getScore() + "    | " + player.getStatus() + " |");
+//		        }
+//
+//		        System.out.println("---------------------------------------------------");
+		    }
+		}
+
+
+	
+		public void resultDisplay() {
+		    Team team1Result = opponentTeams.getTeamOne();
+		    Team team2Result = opponentTeams.getTeamTwo();
+
+		    // Determine the result of the match
+		    if (team1Result.getTotalScore() > team2Result.getTotalScore()) {
+		        team1Result.setResult("Won");
+		        team2Result.setResult("Lost");
+		    } else if (team1Result.getTotalScore() < team2Result.getTotalScore()) {
+		        team1Result.setResult("Lost");
+		        team2Result.setResult("Won");
+		    } else {
+		        team1Result.setResult("Tie");
+		        team2Result.setResult("Tie");
+		    }
+
+		    // Display team 1 details
+		    System.out.println("Team Name          Total Score    Total Wickets    Total Overs    Result");
+		    System.out.println("------------------------------------------------------------------------");
+		    System.out.printf("%-20s %-15d %-15d %-15.1f %-10s\n", 
+		                      team1Result.getTeamName(), 
+		                      team1Result.getTotalScore(), 
+		                      getTotalWickets(team1Result.getPlayersList()), 
+		                      team1Result.getTotalOvers(),
+		                      team1Result.getResult());
+		    
+		    // Display players for team 1
+		    System.out.println("-------------------------------------------------------------");
+		    for (Player player : team1Result.getPlayersList()) {
+		        String playerStatus = (player.getStatus() == null || player.getStatus().isEmpty()) ? "Did not bat" : player.getStatus();
+		        System.out.printf("%-20s %-15d %-15s\n", 
+		                          player.getFirstName() + " " + player.getLastName(), 
+		                          player.getScore(), 
+		                          playerStatus);
+		    }
+
+		    // Separate the teams with a line for clarity
+		    System.out.println("\n-------------------------------------------------------------\n");
+
+		    // Display team 2 details
+		    System.out.printf("%-20s %-15d %-15d %-15.1f %-10s\n", 
+		                      team2Result.getTeamName(), 
+		                      team2Result.getTotalScore(), 
+		                      getTotalWickets(team2Result.getPlayersList()), 
+		                      team2Result.getTotalOvers(),
+		                      team2Result.getResult());
+
+		    // Display players for team 2
+		    System.out.println("-------------------------------------------------------------");
+		    for (Player player : team2Result.getPlayersList()) {
+		        String playerStatus = (player.getStatus() == null || player.getStatus().isEmpty()) ? "Did not bat" : player.getStatus();
+		        System.out.printf("%-20s %-15d %-15s\n", 
+		                          player.getFirstName() + " " + player.getLastName(), 
+		                          player.getScore(), 
+		                          playerStatus);
+		    }
+		}
+
+		// Helper method to get the total wickets for a team
+		private int getTotalWickets(List<Player> playersList) {
+		    int totalWickets = 0;
+		    for (Player player : playersList) {
+		        // Only count players who are out
+		        if (player.getStatus() != null && !player.getStatus().equals("Did not bat") && !player.getStatus().equals("Not Out")) {
+		            totalWickets++;
+		        }
+		    }
+		    return totalWickets;
 	}
 }
