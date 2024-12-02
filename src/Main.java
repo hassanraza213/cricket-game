@@ -1,12 +1,10 @@
-import utils.Innings;
+import service.Match;
 
 public class Main {
 
 	public static void main(String[] args) {
 		
-		Innings.getTeamNames();
-		Innings.toss();
-		Innings.overs();
-		Innings.resultDisplay();
+		Match match = new Match();
+		match.play();
 	}
 }

@@ -1,4 +1,4 @@
-package utils;
+package service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,24 +7,17 @@ import java.util.Scanner;
 
 import model.Team;
 
-public class Innings {
+public class Match {
 	
-	//static String chooseBatOrBowlOne;
-	//static String chooseBatOrBowlTwo;
+	 List<Team> addMatchDetailsArrayList = new ArrayList<>();
 	
-	static List<Team> addMatchDetailsArrayList = new ArrayList<>();
-	
-	public static void getTeamNames() {
-		  
+	private void getTeamNames() {
 		Scanner inputTeamName = new Scanner(System.in);
-		
-		
 		Team teamOne = new Team();
 		
 		System.out.println(" Enter your team name ");
 		teamOne.setTeamName(inputTeamName.nextLine());
 		addMatchDetailsArrayList.add(teamOne);
-		
 		
 		Team teamTwo = new Team();
 		
@@ -34,7 +27,6 @@ public class Innings {
 	}
 	
 	public static String tossValidation(String userChoiceValidation) {
-		
 		Scanner validatingChoice = new Scanner(System.in);
 		if(userChoiceValidation.equalsIgnoreCase("bat") || userChoiceValidation.equalsIgnoreCase("bowl")) {
 			return userChoiceValidation;
@@ -45,8 +37,7 @@ public class Innings {
 		}
 	}
 	
-	public static void toss() {
-		
+	private void toss() {
 		Team teamToss1 = addMatchDetailsArrayList.get(0);
 		Team teamToss2 = addMatchDetailsArrayList.get(1);
 		Scanner tossWin =  new Scanner(System.in);
@@ -114,8 +105,7 @@ public class Innings {
 	
 	
 	
-	public static void overs() {
-		
+	private void overs() {
 		Team team1Score = addMatchDetailsArrayList.get(0);
 		Team team2Score = addMatchDetailsArrayList.get(1);
 		
@@ -157,10 +147,6 @@ public class Innings {
 	    	System.out.println();
 	    	String battingTeam = batFirst ? addMatchDetailsArrayList.get(i).getTeamName() : addMatchDetailsArrayList.get(1 - i).getTeamName();
 	       
-	    	//System.out.println();
-	    	//System.out.println(battingTeam + " is batting now.");
-	       //System.out.println();
-	    	
 	        int scorePerOver = 0 ;
 		    double currentOver = 0;
 	    	int currentRuns = 0 ;	
@@ -183,23 +169,19 @@ public class Innings {
                     	{                	
                         int runs = randomRuns.nextInt(6) + 1;
                         currentRuns += runs;    
-                        //System.out.println("Ball " + ball + ": " + runs + " runs");
                         break;              
                     	}   
                     case 7:
                     	{
                     	currentWicket++;
                     	if(currentWicket == 10) {
-                    		//	System.out.println(" All wickets are down. innigs overs");
                     		break;
                     	}
-                        //System.out.println("Ball " + ball + ": Wicket!");
                         break;  
                     	}    
                     case 8: 
                     	{
                         currentRuns++; 
-                        //System.out.println("Ball " + ball + ": Wide!");
                         ball--;	
                         break;
                     	}
@@ -210,19 +192,16 @@ public class Innings {
                         
 	                        if (isRunOut) {
 	                            currentWicket++; 
-	                            //System.out.println("Run-out on no-ball! Wicket!");
 	                        } else {
 	                            
 	                            int noBallRuns = runOutCheck.nextInt(6) + 1; 
 	                            currentRuns += noBallRuns;
-	                           // System.out.println("No-ball runs: " + noBallRuns);
 	                        }
                         ball--;
                         break;
                     	}
                     default:
                     	{
-                        //System.out.println("Ball " + ball + ": Dot ball");
                         break;
                     	}
                 }
@@ -238,28 +217,21 @@ public class Innings {
 		            team1Score.setWicketsCount(currentWicket);
 		            team1Score.setTotalOvers(currentOver);
 		            
-		           // addMatchDetailsArrayList.add(team1Score);
 		        } else {
 		            team2Score.setTotalScore(scorePerOver);
 		            team2Score.setWicketsCount(currentWicket);
 		            team2Score.setTotalOvers(currentOver);
-		            
-		          //  addMatchDetailsArrayList.add(team2Score);
 		        }
 	           
 	            if(currentWicket == 10) {
 	            	break;
 	            }
 	        }
- 
-           // System.out.println(addMatchDetailsArrayList.get(i).getTeamName() + " has scored "+ addMatchDetailsArrayList.get(i).getTotalScore());
-            //System.out.println();
 	    }
 	}
 	
 	
-	public static void resultDisplay() {
-		
+	private void resultDisplay() {
 		Team team1Result = addMatchDetailsArrayList.get(0);
 		Team team2Result = addMatchDetailsArrayList.get(1);
 		
@@ -275,7 +247,6 @@ public class Innings {
 			team2Result.setResult("Tie");
 		}
 		
-		
 		System.out.println("Team Name          Total Score    Total Wickets    Total Overs    Result");
 	    System.out.println("------------------------------------------------------------------------");
 
@@ -287,5 +258,12 @@ public class Innings {
 	                          team.getTotalOvers(),
 	                          team.getResult());
 	    }
+	}
+	
+	public void play() {
+		this.getTeamNames();
+		this.toss();
+		this.overs();
+		this.resultDisplay();
 	}
 }
