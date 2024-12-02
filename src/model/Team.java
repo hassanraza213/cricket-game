@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 public class Team {
 	
 	private String teamName;
@@ -10,8 +12,17 @@ public class Team {
 	private int totalScore;
 	private String tossChoice;
 	private String result;
+	private List<Player> playersList;
+	private String choosenTeam;
 	
-	
+	public Team() {
+	}
+
+	public Team(String teamName, List<Player> playersList) {
+		this.teamName = teamName;
+		this.playersList = playersList;
+	}
+
 	public String getTeamName() {
 		return teamName;
 	}
@@ -75,8 +86,32 @@ public class Team {
 	public void setResult(String result) {
 		this.result = result;
 	}
-	
-	
-	
 
+	public List<Player> getPlayersList() {
+		return playersList;
+	}
+
+	public void setPlayersList(List<Player> playersList) {
+		this.playersList = playersList;
+	}
+	
+	public String getChoosenTeam() {
+		return choosenTeam;
+	}
+
+	public void setChoosenTeam(String choosenTeam) {
+		this.choosenTeam = choosenTeam;
+	}
+
+	public static Team  getPakistanTeamObject() {
+		return  new Team("Pakistan", Player.getPakistanPlayers());
+	}
+	
+	public static Team  getIndiaTeamObject() {
+		return  new Team("India", Player.getIndiaPlayers());
+	}
+	
+	public static Team  getAustraliaTeamObject() {
+		return  new Team("Australia", Player.getAustraliaPlayers());
+	}
 }
