@@ -1,4 +1,4 @@
-package utils;
+package services;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +9,8 @@ import model.OpponentTeams;
 import model.Player;
 import model.Team;
 
-	public class Innings {
+	public class Match {
 		
-		//static String chooseBatOrBowlOne;
-		//static String chooseBatOrBo	wlTwo;
 		public List<Team> addMatchDetailsArrayList = new ArrayList<>();
 		OpponentTeams opponentTeams = new OpponentTeams();
 		
@@ -155,7 +153,6 @@ import model.Team;
 		    System.out.println();
 		    System.out.println(" -----  ---  ----- ");
 
-		    // For both innings
 		    for (int i = 0; i < 2; i++) {
 		        System.out.println();
 		        String battingTeam = (i == 0) ? opponentTeams.getBattingChoosingTeam().getTeamName() : opponentTeams.getBowlingChoosingTeam().getTeamName();
@@ -171,8 +168,6 @@ import model.Team;
 		        List<Player> playersList = (i == 0) ? opponentTeams.getBattingChoosingTeam().getPlayersList() : opponentTeams.getBowlingChoosingTeam().getPlayersList();
 		        Player currentBatter = playersList.get(random.nextInt(playersList.size())); 
 
-		       // System.out.println("The current batter is: " + currentBatter.getFirstName() + " " + currentBatter.getLastName());
-
 		        for (int over = 1; over <= totalOvers; over++) {
 		            currentOver++;
 		            currentRuns = 0;
@@ -182,7 +177,7 @@ import model.Team;
 		                int outcome = randomRuns.nextInt(100) + 1;
 
 		                if (outcome >= 1 && outcome <= 40) {
-		                    // No runs scored
+		                  
 		                } else if (outcome >= 41 && outcome <= 50) {
 		                    currentRuns += 1;
 		                } else if (outcome >= 51 && outcome <= 60) {
@@ -195,10 +190,10 @@ import model.Team;
 		                    currentRuns += 6;
 		                } else if (outcome >= 81 && outcome <= 85) {
 		                    currentRuns += 1;
-		                    ball--; // Extra ball due to wide
+		                    ball--; 
 		                } else if (outcome >= 86 && outcome <= 90) {
 		                    currentRuns += 1;
-		                    ball--; // Extra ball due to no-ball
+		                    ball--; 
 
 		                    int runOutChance = randomRuns.nextInt(100) + 1;
 		                    if (runOutChance <= 10) {
@@ -213,11 +208,8 @@ import model.Team;
 
 		                scorePerOver += currentRuns;
 
-		                // Check if the player is out
 		                if (random.nextInt(100) < 10) {
-		                   // System.out.println(currentBatter.getFirstName() + " " + currentBatter.getLastName() + " is out");
-
-		                    // Update player's status
+		                   
 		                    currentBatter.setStatus("Out");
 
 		                    currentWicket++;
@@ -225,12 +217,9 @@ import model.Team;
 		                        break;
 		                    }
 
-		                    // Set the next batter
 		                    currentBatter = playersList.get(random.nextInt(playersList.size()));
-		                  //  System.out.println("Next batter is: " + currentBatter.getFirstName() + " " + currentBatter.getLastName());
 		                }
 
-		                // Add runs to the player's score
 		                currentBatter.setScore(currentBatter.getScore() + currentRuns);
 
 		                if (currentWicket == 10) {
@@ -238,7 +227,6 @@ import model.Team;
 		                }
 		            }
 
-		            // Update the team score after each over
 		            if (battingTeam.equals(opponentTeams.getTeamOne().getTeamName())) {
 		                team1Score.setTotalScore(scorePerOver);
 		                team1Score.setWicketsCount(currentWicket);
@@ -253,20 +241,6 @@ import model.Team;
 		                break;
 		            }
 		        }
-
-		        // Print the final scores and statuses of players after the match
-//		        System.out.println();
-//		        System.out.println(" ---- Final Player Scores and Status ---- ");
-//		        System.out.println("Batting Team: " + battingTeam);
-//		        System.out.println("---------------------------------------------------");
-//		        System.out.println("| Player Name               | Runs  | Status       |");
-//		        System.out.println("---------------------------------------------------");
-//
-//		        for (Player player : playersList) {
-//		            System.out.println("| " + player.getFirstName() + " " + player.getLastName() + "   | " + player.getScore() + "    | " + player.getStatus() + " |");
-//		        }
-//
-//		        System.out.println("---------------------------------------------------");
 		    }
 		}
 
@@ -276,7 +250,6 @@ import model.Team;
 		    Team team1Result = opponentTeams.getTeamOne();
 		    Team team2Result = opponentTeams.getTeamTwo();
 
-		    // Determine the result of the match
 		    if (team1Result.getTotalScore() > team2Result.getTotalScore()) {
 		        team1Result.setResult("Won");
 		        team2Result.setResult("Lost");
@@ -288,7 +261,6 @@ import model.Team;
 		        team2Result.setResult("Tie");
 		    }
 
-		    // Display team 1 details
 		    System.out.println("Team Name          Total Score    Total Wickets    Total Overs    Result");
 		    System.out.println("------------------------------------------------------------------------");
 		    System.out.printf("%-20s %-15d %-15d %-15.1f %-10s\n", 
@@ -298,7 +270,6 @@ import model.Team;
 		                      team1Result.getTotalOvers(),
 		                      team1Result.getResult());
 		    
-		    // Display players for team 1
 		    System.out.println("-------------------------------------------------------------");
 		    for (Player player : team1Result.getPlayersList()) {
 		        String playerStatus = (player.getStatus() == null || player.getStatus().isEmpty()) ? "Did not bat" : player.getStatus();
@@ -308,10 +279,8 @@ import model.Team;
 		                          playerStatus);
 		    }
 
-		    // Separate the teams with a line for clarity
 		    System.out.println("\n-------------------------------------------------------------\n");
 
-		    // Display team 2 details
 		    System.out.printf("%-20s %-15d %-15d %-15.1f %-10s\n", 
 		                      team2Result.getTeamName(), 
 		                      team2Result.getTotalScore(), 
@@ -319,7 +288,6 @@ import model.Team;
 		                      team2Result.getTotalOvers(),
 		                      team2Result.getResult());
 
-		    // Display players for team 2
 		    System.out.println("-------------------------------------------------------------");
 		    for (Player player : team2Result.getPlayersList()) {
 		        String playerStatus = (player.getStatus() == null || player.getStatus().isEmpty()) ? "Did not bat" : player.getStatus();
@@ -330,15 +298,18 @@ import model.Team;
 		    }
 		}
 
-		// Helper method to get the total wickets for a team
 		private int getTotalWickets(List<Player> playersList) {
 		    int totalWickets = 0;
 		    for (Player player : playersList) {
-		        // Only count players who are out
 		        if (player.getStatus() != null && !player.getStatus().equals("Did not bat") && !player.getStatus().equals("Not Out")) {
 		            totalWickets++;
 		        }
 		    }
 		    return totalWickets;
 	}
+	public void play() {
+			this.toss();
+			this.overs();
+			this.resultDisplay();
+		}
 }
