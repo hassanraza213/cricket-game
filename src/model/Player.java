@@ -1,12 +1,11 @@
 package model;
 
-import utils.Innings;
-
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 import model.Team;
+import services.Match;
 
 public class Player {
 	
@@ -60,7 +59,7 @@ public class Player {
 		this.lastName = lastName;
 	}
 
-	static Innings innings = new Innings();
+	static Match innings = new Match();
 	
 	public static List<Player> getPakistanPlayers() {
 		
