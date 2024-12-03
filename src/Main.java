@@ -3,18 +3,16 @@ import java.util.List;
 
 import model.OpponentTeams;
 import model.Team;
-import utils.Innings;
+import services.Match;
 	
-	public class Main {
+	public class Main extends Match {
 	
 		public static void main(String[] args) {
 			
 			
-			Innings innings = new Innings();
+			Main main = new Main();
 			
-			OpponentTeams opponentTeams = innings.getTeamNames();
-			 innings.toss();
-			innings.overs();
-			innings.resultDisplay();
+			OpponentTeams opponentTeams = main.getTeamNames();
+			main.play();
 		}
 	}
